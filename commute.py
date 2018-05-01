@@ -21,6 +21,7 @@ kind over another...
 
 from collections import defaultdict, namedtuple
 import fileinput
+import functools
 import datetime
 import re
 
@@ -51,10 +52,8 @@ class CommuteGraph:
 
         # Build the graph.
         for e in entries[i+1:]:
-            if isinstance(e, FlexRoute):
-                self.add_flexroute(e)
-            elif isinstance(e, TimedRoute):
-                self.add_timedroute(e)
+            if isinstance(e, FlexRoute) or isinstance(e, TimedRoute):
+                self.edges[e.start].append(e)
             elif isinstance(e, Comment):
                 next
             elif isinstance(e, Header):
@@ -62,13 +61,10 @@ class CommuteGraph:
             else:
                 raise Exception("Unexpected entry type {0}".format(e.__class__))
 
-    def add_flexroute(self, fr):
-        """Adds a flex route to the commute graph. """
-        pass
+        # Lastly, sort the routes according to priority.
+        for k, v in self.edges.items():
+            v.sort()
 
-    def add_timedroute(self, tr):
-        """Adds a timed route to the commute graph. """
-        pass
 
 #############################################################################
 # Input parsing
@@ -82,6 +78,22 @@ flex_re = re.compile("f {0}\s+{1}\s+{2}\s*".format(word_pat, word_pat, dur_pat))
 timed_re = re.compile("t {0}\s+{1}\s+{2}\s+{3}\s*".format(word_pat, time_pat, word_pat, time_pat))
 comment_re = re.compile("#\s*(.*)")
 
+
+def route_le(a,b):
+    """Returns the route with the greatest "priority", which we define as follows:
+      - Always prefer flexibile routes over timed routes
+      - Prefer shorter flex routes over longer ones
+      - Prefer timed routes that leave earler than ones that leave later.
+    """
+    if (isinstance(a, FlexRoute) and isinstance(b, FlexRoute)):
+        return a.duration < b.duration
+    if (isinstance(a, FlexRoute) and isinstance(b, TimedRoute)):
+        return True
+    if (isinstance(a, TimedRoute) and isinstance(b, FlexRoute)):
+        return False
+    return a.start < b.start
+
+@functools.total_ordering
 class FlexRoute:
     """A flexible route for the commute graph.  A FlexRoute is an edge
     that can be processed at any time.  For instance, cycling from my house
@@ -96,10 +108,14 @@ class FlexRoute:
 
     def __ne__(self, other):
         return not self.__eq__(other)
+    
+    def __le__(self, other):
+        return route_le(self, other)
 
     def __repr__(self):
         return "FlexRoute({0}, {1}, {2})".format(self.start, self.dest, self.duration)
 
+@functools.total_ordering
 class TimedRoute:
     """A timed route to the commute graph.  A timed route is an edge
     that can only be processed at or after the current time."""
@@ -117,6 +133,9 @@ class TimedRoute:
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
+    def __le__(self, other):
+        return route_le(self, other)
 
     def __repr__(self):
         return "TimedRoute({0}, {1}, {2}, {3})".format(self.start, self.start_time, self.dest, self.dest_time)

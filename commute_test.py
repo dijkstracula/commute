@@ -36,16 +36,32 @@ class LineParsing(unittest.TestCase):
             actual = commute.parse(line)
             self.assertEqual(actual, expected)
 
-
 class DocumentParsing(unittest.TestCase):
     lines = ["# A sample commute from my hometown.",
              "home macewan",
              "f home busstop 5",
              "t busstop 7:00 legislature 7:35",
+             "t busstop 7:15 legislature 7:50",
              "f legislature macewan 15"]
 
     def test_multiline_parse(self):
-        commute.CommuteGraph(self.lines)
+        g = commute.CommuteGraph(self.lines)
+        self.assertEqual(len(g.edges), 3)
+        self.assertEqual(len(g.edges["busstop"]), 2)
+
+class RoutePrioritization(unittest.TestCase):
+    def test_flexroute_prio(self):
+        l = [commute.FlexRoute("home", "bart", "15"), commute.FlexRoute("home", "ferry", "25")]
+        self.assertEqual(l, sorted(l))
+
+    def test_timedroute_prio(self):
+        l = [commute.TimedRoute("north_berkley", "7:15", "millbrae", "8:11"), commute.TimedRoute("north_berkley", "8:15", "millbrae", "9:11")]
+        self.assertEqual(l, sorted(l))
+
+    def test_mixed_prio(self):
+        l = [commute.FlexRoute("home", "bart", "15"), commute.TimedRoute("north_berkley", "7:15", "millbrae", "8:11")]
+        self.assertEqual(l, sorted(l))
+
 
 if __name__ == "__main__":
     unittest.main()
