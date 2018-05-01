@@ -55,11 +55,11 @@ class RoutePrioritization(unittest.TestCase):
         self.assertEqual(l, sorted(l))
 
     def test_timedroute_prio(self):
-        l = [commute.TimedRoute("north_berkley", "7:15", "millbrae", "8:11"), commute.TimedRoute("north_berkley", "8:15", "millbrae", "9:11")]
+        l = [commute.TimedRoute("north_berkeley", "7:15", "millbrae", "8:11"), commute.TimedRoute("north_berkeley", "8:15", "millbrae", "9:11")]
         self.assertEqual(l, sorted(l))
 
     def test_mixed_prio(self):
-        l = [commute.FlexRoute("home", "bart", "15"), commute.TimedRoute("north_berkley", "7:15", "millbrae", "8:11")]
+        l = [commute.FlexRoute("home", "bart", "15"), commute.TimedRoute("north_berkeley", "7:15", "millbrae", "8:11")]
         self.assertEqual(l, sorted(l))
 
 
