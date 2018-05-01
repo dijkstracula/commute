@@ -50,6 +50,9 @@ class CommuteGraph:
         if i == len(entries):
             raise Exception("Missing header line")
 
+        self.start = entries[i].start
+        self.dest = entries[i].dest
+
         # Build the graph.
         for e in entries[i+1:]:
             if isinstance(e, FlexRoute) or isinstance(e, TimedRoute):
@@ -64,6 +67,25 @@ class CommuteGraph:
         # Lastly, sort the routes according to priority.
         for k, v in self.edges.items():
             v.sort()
+
+
+    def find_path(self, start, dest):
+        """traverses the commute graph and finds the paths that exist from start
+        to dest, with the "don't get on routes that have already departed"
+        timing constraint. """
+        def dfs_unconstrained(start, dest, seen, acc):
+            """Does a DFS from start to dest.  In this state we have not encountered
+            any timed routes, so our accumulator is the amount of time spent commuting
+            along those flex states.  If we encounter a timed state, we have to
+            transition to recursing with dfs_constrained()."""
+            pass
+        def dfs_constrained(start, dest, seen, acc):
+            """Does a DFS from start to dest.  In this state we have encountered
+            timed routes, so accumulator is the current "timestamp" of our arrival at
+            the previous state.  TODO: what if there is no previous state? Think this
+            one through."""
+            pass
+        dfs_unconstrained(start, dest, set(), 0)
 
 
 #############################################################################
