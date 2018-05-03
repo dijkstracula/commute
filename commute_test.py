@@ -48,6 +48,19 @@ class DocumentParsing(unittest.TestCase):
         g = commute.CommuteGraph(self.lines)
         self.assertEqual(len(g.edges), 3)
         self.assertEqual(len(g.edges["busstop"]), 2)
+    def test_dfs(self):
+        g = commute.CommuteGraph(self.lines)
+        #print([list(r) for r in g.find_path("home", "macewan")])
+
+class FlexRoutePromoting(unittest.TestCase):
+    f = commute.FlexRoute("home", "bart", "15")
+    ts = datetime.time(12, 00, 00)
+    def test_premote_from_begin_ts(self):
+        t = self.f.promote(begin_ts=self.ts)
+        self.assertEqual(t, commute.TimedRoute("home", "12:00", "bart", "12:15"))
+    def test_premote_from_dest_ts(self):
+        t = self.f.promote(end_ts=self.ts)
+        self.assertEqual(t, commute.TimedRoute("home", "11:45", "bart", "12:00"))
 
 class RoutePrioritization(unittest.TestCase):
     def test_flexroute_prio(self):
