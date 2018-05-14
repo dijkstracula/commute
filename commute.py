@@ -101,12 +101,11 @@ class CommuteGraph:
                 yield acc
             if curr not in seen:
                 for e in self.edges[curr]:
-                    if isinstance(e, TimedRoute) and e.dest_time >= ts:
+                    if isinstance(e, TimedRoute) and e.start_time >= ts:
                         yield from dfs_constrained(e.dest, dest, new_seen, acc + [e], e.dest_time)
                     elif isinstance(e, FlexRoute):
-                        ts = (datetime.datetime.combine(datetime.date.today(), ts) + e.duration).time()
                         e = e.promote(begin_ts=ts)
-                        yield from dfs_constrained(e.dest, dest, new_seen, acc + [e], ts)
+                        yield from dfs_constrained(e.dest, dest, new_seen, acc + [e], e.dest_time)
 
 
         yield from dfs_unconstrained(start, dest, set(), list())
@@ -256,3 +255,4 @@ if __name__ == "__main__":
         dt = datetime.timedelta(seconds=route_len(route))
         vs = " -> ".join([v.dest for v in route])
         print("{0} for trip starting at {1} with route: {2}".format(dt, route[0].start_time, vs))
+        #print(route)
