@@ -23,8 +23,8 @@ class LineParsing(unittest.TestCase):
     values = [
         ("home work", commute.Header("home", "work")),
 
-        ("# A comment", commute.Comment("A comment")),
-        ("#abc", commute.Comment("abc")),
+        ("# A comment", None),
+        ("#abc", None),
 
         ("f home train 15", commute.FlexRoute("home", "train", "15")),
 
@@ -46,8 +46,11 @@ class DocumentParsing(unittest.TestCase):
 
     def test_multiline_parse(self):
         g = commute.CommuteGraph(self.lines)
-        self.assertEqual(len(g.edges), 3)
-        self.assertEqual(len(g.edges["busstop"]), 2)
+        self.assertEqual(len(g.edges), 4)
+        self.assertEqual(len(g.edges["home"]), 1) #busstop
+        self.assertEqual(len(g.edges["busstop"]), 3) #leg1, leg2, home
+        self.assertEqual(len(g.edges["macewan"]), 1) #leg
+
     def test_dfs(self):
         g = commute.CommuteGraph(self.lines)
         #print([list(r) for r in g.find_path("home", "macewan")])
