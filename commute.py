@@ -50,7 +50,10 @@ class CommuteGraph:
 
         # Build the graph.
         for e in entries[i+1:]:
-            if isinstance(e, FlexRoute) or isinstance(e, TimedRoute):
+            if isinstance(e, FlexRoute):
+                self.edges[e.start].append(e)
+                self.edges[e.dest].append(e.reversed())
+            elif isinstance(e, TimedRoute):
                 self.edges[e.start].append(e)
             elif isinstance(e, Header):
                 raise Exception("Duplicate header")
@@ -161,6 +164,11 @@ class FlexRoute:
     def __repr__(self):
         return "FlexRoute({0}, {1}, {2})".format(self.start, self.dest, self.duration)
 
+    def reversed(self):
+        """returns a FlexRoute of the same length but with the opposite
+        direction."""
+        return FlexRoute(self.dest, self.start, self.duration)
+
     def promote(self, begin_ts=None, end_ts=None):
         """Promotes a FlexRoute to a TimedRoute, by consuming one of a start timestamp and an
         end timstamp and calculating the other component from the duration."""
@@ -235,7 +243,7 @@ def validateTime(tok):
 
 def validateDuration(tok):
     """Produces a TimeDelta from the current token."""
-    if isinstance(tok, datetime.time):
+    if isinstance(tok, datetime.timedelta):
         return tok
     return datetime.timedelta(minutes=int(tok))
 
@@ -255,4 +263,4 @@ if __name__ == "__main__":
         dt = datetime.timedelta(seconds=route_len(route))
         vs = " -> ".join([v.dest for v in route])
         print("{0} for trip starting at {1} with route: {2}".format(dt, route[0].start_time, vs))
-        #print(route)
+        print(route)
