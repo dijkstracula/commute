@@ -1,0 +1,55 @@
+home apple_park
+
+# SF bay ferry
+t jack_london_ferry 6:30 sf_ferry_bld 7:00
+t jack_london_ferry 7:00 sf_ferry_bld 7:35
+t jack_london_ferry 7:35 sf_ferry_bld 8:05
+t jack_london_ferry 8:10 sf_ferry_bld 8:40
+
+# caltrain
+# http://www.caltrain.com/schedules/weekdaytimetable.html
+t 4th_king_caltrain 6:59 mtv_caltrain 7:50
+t 4th_king_caltrain 7:05 mtv_caltrain 7:59
+t 4th_king_caltrain 7:35 mtv_caltrain 8:28
+t 4th_king_caltrain 7:59 mtv_caltrain 8:50
+t 4th_king_caltrain 8:35 mtv_caltrain 9:28
+
+
+# apple shuttle
+t macarthur_bart 6:40 apple_park 8:10
+t macarthur_bart 6:55 apple_park 8:30
+t macarthur_bart 7:15 apple_park 8:58
+t macarthur_bart 7:20 vallco_one 9:26
+t macarthur_bart 7:40 apple_park 9:15
+t macarthur_bart 8:00 apple_park 9:44
+
+t apple_park 15:45 macarthur_bart 17:40
+t apple_park 16:03 macarthur_bart 17:45
+t apple_park 16:55 macarthur_bart 19:00
+t apple_park 17:47 macarthur_bart 19:55
+t apple_park 18:50 macarthur_bart 20:40
+
+t mtv_caltrain 7:53 apple_park 8:08
+t mtv_caltrain 8:02 apple_park 8:17
+t mtv_caltrain 8:53 apple_park 9:10
+t mtv_caltrain 9:02 apple_park 9:26
+t mtv_caltrain 9:31 apple_park 9:52
+
+t apple_park 15:56 mtv_caltrain 16:31
+t apple_park 16:12 mtv_caltrain 16:47
+t apple_park 16:52 mtv_caltrain 17:25
+t apple_park 17:00 mtv_caltrain 17:25
+t apple_park 17:17 mtv_caltrain 17:44
+t apple_park 17:51 mtv_caltrain 18:25
+t apple_park 17:59 mtv_caltrain 18:26
+t apple_park 18:23 mtv_caltrain 18:51
+t apple_park 19:20 mtv_caltrain 19:55
+t apple_park 20:20 mtv_caltrain 20:55
+
+# bike
+f home jack_london_ferry 20
+f sf_ferry_bld 4th_king_caltrain 15
+f mtv_caltrain apple_park 45
+
+# walk
+f home macarthur_bart 5

@@ -1,0 +1,64 @@
+# Commuting from home to GRAIL (Menlo Park Labs)
+
+home grail
+
+# walking
+f home macarthur_bart 5
+f 24th_st_bart 24th_guerrero 10
+f transbay_terminal 4th_king_caltrain 10
+
+# BART
+t macarthur_bart 6:31 24th_st_bart 6:57
+t macarthur_bart 6:16 24th_st_bart 6:42
+t macarthur_bart 6:24 24th_st_bart 6:50
+t macarthur_bart 6:31 24th_st_bart 6:57
+t macarthur_bart 6:39 union_city_bart 7:20
+t macarthur_bart 6:24 union_city_bart 7:05
+t macarthur_bart 6:31 millbrae_bart 7:21
+t macarthur_bart 7:39 union_city_bart 8:20
+t macarthur_bart 8:39 union_city_bart 9:20
+
+# SF bay ferry
+t jack_london_ferry 7:00 sf_ferry_bld 7:35
+t jack_london_ferry 7:35 sf_ferry_bld 8:05
+t jack_london_ferry 8:10 sf_ferry_bld 8:40
+t jack_london_ferry 6:40 ssf_ferry_terminal 7:20
+t jack_london_ferry 7:40 ssf_ferry_terminal 8:20
+t jack_london_ferry 8:10 ssf_ferry_terminal 8:50
+
+# commuter shuttle
+# https://www.menloparkrides.com
+t 24th_guerrero 7:08 grail 8:25
+t union_city_bart 7:20 grail 7:50
+t union_city_bart 8:20 grail 8:50
+t union_city_bart 9:20 grail 9:45
+t palo_alto_caltrain 8:45 grail 9:10
+t palo_alto_caltrain 9:45 grail 10:10
+
+# caltrain
+# http://www.caltrain.com/schedules/weekdaytimetable.html
+t 4th_king_caltrain 6:59 palo_alto_caltrain 7:37 
+t ssf_caltrain      7:31 palo_alto_caltrain 8:14
+t 4th_king_caltrain 7:35 palo_alto_caltrain 8:21
+t 4th_king_caltrain 7:45 palo_alto_caltrain 8:33
+t 4th_king_caltrain 7:59 palo_alto_caltrain 8:37
+t millbrae_caltrain 8:16 palo_alto_caltrain 8:37
+t 4th_king_caltrain 8:05 palo_alto_caltrain 8:52
+t ssf_caltrain      8:31 palo_alto_caltrain 9:14
+t 4th_king_caltrain 8:35 palo_alto_caltrain 9:21
+
+# bike
+f home jack_london_ferry 20
+f sf_ferry_bld 4th_king_caltrain 15
+f ssf_ferry_terminal ssf_caltrain 15
+f palo_alto_caltrain grail 20
+
+# AC Transit
+# http://www.actransit.org/maps/schedule_results.php?quick_line=F&Go=Go
+t macarthur_bart 6:54 transbay_terminal 7:25
+t macarthur_bart 7:14 transbay_terminal 7:45
+t macarthur_bart 7:34 transbay_terminal 8:05
+t macarthur_bart 7:56 transbay_terminal 8:30
+t macarthur_bart 8:17 transbay_terminal 8:54
+t macarthur_bart 8:35 transbay_terminal 9:11
+
